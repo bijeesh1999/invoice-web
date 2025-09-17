@@ -4,6 +4,12 @@ export const handlePdf = (invoice) => {
   // Create a new jsPDF instance
   const doc = new jsPDF();
 
+  const today = new Date();
+
+  const formattedDate = today.toLocaleDateString();
+
+
+
   // Set initial position and font
   let y = 10;
   doc.setFontSize(22);
@@ -12,9 +18,8 @@ export const handlePdf = (invoice) => {
 
   // Add invoice details
   doc.setFontSize(12);
-  doc.text(`Invoice ID: ${invoice.id}`, 10, y += 10);
   doc.text(`Customer: ${invoice.customerName}`, 10, y += 10);
-  doc.text(`Date: ${invoice.date}`, 10, y += 10);
+  doc.text(`Date: ${formattedDate}`, 10, y += 10);
   y += 10;
 
   // Add a line for separation

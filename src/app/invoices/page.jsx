@@ -106,7 +106,7 @@ export default function Invoice() {
   }, []);
 
   React.useEffect(() => {
-    if (status === "created") {
+    if (status === "created"|| status === "deleted") {
       dispatch(findAllInvoices());
     }
   }, [status]);

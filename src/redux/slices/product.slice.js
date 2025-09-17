@@ -1,4 +1,8 @@
-import { createProduct, findAllProducts } from "@/app/services/product.service";
+import {
+  createProduct,
+  deleteProduct,
+  findAllProducts,
+} from "@/app/services/product.service";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -13,7 +17,7 @@ const initialState = {
 // action for create Product //
 export const createProductData = createAsyncThunk(
   "product/create",
-  async (productData) => {    
+  async (productData) => {
     const res = await createProduct({
       name: productData?.name,
       price: productData?.price,
@@ -28,6 +32,15 @@ export const findAllProductDetails = createAsyncThunk(
   "product/findAll",
   async () => {
     const res = await findAllProducts();
+    return res.data;
+  }
+);
+
+// delete product
+export const deleteProductData = createAsyncThunk(
+  "product/delete",
+  async (id) => {
+    const res = await deleteProduct(id);
     return res.data;
   }
 );
@@ -67,6 +80,16 @@ const productSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
         state.loading = false;
+      })
+      .addCase(deleteProductData.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(deleteProductData.fulfilled, (state, action) => {
+        state.status = "deleted";
+      })
+      .addCase(deleteProductData.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
       });
   },
 });

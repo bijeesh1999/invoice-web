@@ -17,7 +17,10 @@ import {
 } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
-import { findAllCustomers } from "@/redux/slices/customer.slice";
+import {
+  deleteCustomerData,
+  findAllCustomers,
+} from "@/redux/slices/customer.slice";
 
 export default function CustomerList(props) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,7 +29,7 @@ export default function CustomerList(props) {
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this member?")) {
-      setMembers(members.filter((member) => member.id !== id));
+      dispatch(deleteCustomerData(id));
     }
   };
 
@@ -48,53 +51,56 @@ export default function CustomerList(props) {
         </TableHead>
         <TableBody>
           {props?.customers.length > 0 ? (
-            props?.customers.map((member) => (
-              <TableRow key={member._id} hover sx={{ cursor: "pointer" }}>
-                <TableCell>
-                  <Box display="flex" alignItems="center" gap={2}>
-                    <Avatar sx={{ bgcolor: "primary.main" }}>
-                      {member.name.charAt(0).toUpperCase()}
-                    </Avatar>
-                    <Typography variant="body1">{member.name}</Typography>
-                  </Box>
-                </TableCell>
-                <TableCell>
-                  <Typography variant="body2" color="text.secondary">
-                    {member.email || "N/A"}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography variant="body2">{member.phone}</Typography>
-                </TableCell>
-                <TableCell>
-                  {member.discount ? (
-                    <Chip
-                      label={member.discount}
-                      color="success"
-                      size="small"
-                    />
-                  ) : (
+            (props?.customers || [])
+              ?.slice()
+              ?.reverse()
+              ?.map((member) => (
+                <TableRow key={member._id} hover sx={{ cursor: "pointer" }}>
+                  <TableCell>
+                    <Box display="flex" alignItems="center" gap={2}>
+                      <Avatar sx={{ bgcolor: "primary.main" }}>
+                        {member.name.charAt(0).toUpperCase()}
+                      </Avatar>
+                      <Typography variant="body1">{member.name}</Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell>
                     <Typography variant="body2" color="text.secondary">
-                      No discount
+                      {member.email || "N/A"}
                     </Typography>
-                  )}
-                </TableCell>
-                <TableCell align="center">
-                  <IconButton
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="body2">{member.phone}</Typography>
+                  </TableCell>
+                  <TableCell>
+                    {member.discount ? (
+                      <Chip
+                        label={member.discount}
+                        color="success"
+                        size="small"
+                      />
+                    ) : (
+                      <Typography variant="body2" color="text.secondary">
+                        No discount
+                      </Typography>
+                    )}
+                  </TableCell>
+                  <TableCell align="center">
+                    {/* <IconButton
                     color="primary"
                     onClick={() => handleOpenDrawer(member)}
                   >
                     <Edit />
-                  </IconButton>
-                  <IconButton
-                    color="error"
-                    onClick={() => handleDelete(member.id)}
-                  >
-                    <Delete />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))
+                  </IconButton> */}
+                    <IconButton
+                      color="error"
+                      onClick={() => handleDelete(member._id)}
+                    >
+                      <Delete />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))
           ) : (
             <TableRow>
               <TableCell colSpan={5} align="center" sx={{ py: 6 }}>

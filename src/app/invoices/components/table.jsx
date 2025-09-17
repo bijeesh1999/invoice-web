@@ -2,20 +2,7 @@
 
 import React, { useState } from "react";
 import {
-  Container,
   Paper,
-  Typography,
-  Button,
-  Box,
-  Drawer,
-  IconButton,
-  Divider,
-  Grid,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Table,
   TableBody,
   TableCell,
@@ -24,10 +11,9 @@ import {
   TableRow,
   Chip,
 } from "@mui/material";
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import { useDispatch, useSelector } from "react-redux";
 import { handlePdf } from "./pdf";
-
 
 export default function InvoiceList() {
   const invoices = useSelector((state) => state?.invoice.invoices);
@@ -70,36 +56,40 @@ export default function InvoiceList() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {invoices?.map((invoice, index) => (
-            <TableRow key={invoice._id}>
-              <TableCell>{`#${index + 1}`}</TableCell>
-              <TableCell>{invoice?.customerName}</TableCell>
-              <TableCell>{invoice?.productName}</TableCell>
-              <TableCell>{invoice?.quantity}</TableCell>
+          {(invoices || [])
+            ?.slice()
+            ?.reverse()
+            ?.map((invoice, index) => (
+              <TableRow key={invoice._id}>
+                <TableCell>{`#${index + 1}`}</TableCell>
+                <TableCell>{invoice?.customerName}</TableCell>
+                <TableCell>{invoice?.productName}</TableCell>
+                <TableCell>{invoice?.quantity}</TableCell>
 
-              <TableCell>
-                <Chip
-                  label={"pending"}
-                  color={getStatusChipColor(invoice.status)}
-                  size="small"
-                />
-              </TableCell>
-              <TableCell align="right">
-                ${Number(invoice?.totalPrice).toFixed(2)}
-              </TableCell>
-              <TableCell align="right">
-                ${Number(invoice?.discountedPrice).toFixed(2)}
-              </TableCell>
-                            <TableCell align="center">
-                {Number(invoice?.discountedPercent)}
-              </TableCell>
-              <TableCell align="center">
-                <PictureAsPdfIcon className="pointer"
-                onClick={()=>handlePdf(invoice)}
-                />
-              </TableCell>
-            </TableRow>
-          ))}
+                <TableCell>
+                  <Chip
+                    label={"pending"}
+                    color={getStatusChipColor(invoice.status)}
+                    size="small"
+                  />
+                </TableCell>
+                <TableCell align="right">
+                  ${Number(invoice?.totalPrice).toFixed(2)}
+                </TableCell>
+                <TableCell align="right">
+                  ${Number(invoice?.discountedPrice).toFixed(2)}
+                </TableCell>
+                <TableCell align="center">
+                  {Number(invoice?.discountedPercent)}
+                </TableCell>
+                <TableCell align="center">
+                  <PictureAsPdfIcon
+                    className="pointer"
+                    onClick={() => handlePdf(invoice)}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer>

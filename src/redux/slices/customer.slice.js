@@ -1,4 +1,8 @@
-import { createCustomer, findCustomers } from "@/app/services/customer.service";
+import {
+  createCustomer,
+  deleteCustomer,
+  findCustomers,
+} from "@/app/services/customer.service";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -28,6 +32,15 @@ export const findAllCustomers = createAsyncThunk(
   }
 );
 
+// delete customers
+export const deleteCustomerData = createAsyncThunk(
+  "customer/delete",
+  async (id) => {
+    const res = await deleteCustomer(id);
+    return res.data;
+  }
+);
+
 const customerSlice = createSlice({
   name: "customer",
   initialState,
@@ -37,19 +50,17 @@ const customerSlice = createSlice({
       // customer create
       .addCase(createCustomerData.pending, (state) => {
         state.status = "loading";
-        state.loading=true
+        state.loading = true;
       })
       .addCase(createCustomerData.fulfilled, (state, action) => {
         state.status = "created";
         state.customer = action.payload;
-        state.loading=false
-
+        state.loading = false;
       })
       .addCase(createCustomerData.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-        state.loading=false
-
+        state.loading = false;
       })
       .addCase(findAllCustomers.pending, (state) => {
         state.status = "loading";
@@ -59,6 +70,16 @@ const customerSlice = createSlice({
         state.customers = action.payload.users;
       })
       .addCase(findAllCustomers.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(deleteCustomerData.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(deleteCustomerData.fulfilled, (state, action) => {
+        state.status = "deleted";
+      })
+      .addCase(deleteCustomerData.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       });

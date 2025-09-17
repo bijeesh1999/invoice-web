@@ -33,7 +33,10 @@ import ProductTable from "./components/list";
 import ProductForm from "./components/form";
 import { useDispatch, useSelector } from "react-redux";
 import { createProduct } from "../services/product.service";
-import { createProductData, findAllProductDetails } from "@/redux/slices/product.slice";
+import {
+  createProductData,
+  findAllProductDetails,
+} from "@/redux/slices/product.slice";
 
 const initialProducts = [
   {
@@ -133,7 +136,7 @@ export default function Products() {
   });
 
   React.useEffect(() => {
-    if (status === "created") {
+    if (status === "created" || status === "deleted") {
       dispatch(findAllProductDetails());
       handleCloseDrawer();
     }

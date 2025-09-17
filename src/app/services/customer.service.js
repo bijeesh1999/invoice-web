@@ -34,3 +34,13 @@ export const findCustomers = async () => {
     throw error;
   }
 };
+
+export const deleteCustomer = async (id) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/delete/${id}`);
+    return response;
+  } catch (error) {
+    console.error('Error fetching customers:', error.response?.data || error.message);
+    throw error;
+  }
+};

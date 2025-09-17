@@ -147,7 +147,7 @@ export default function Members() {
   });
 
   React.useEffect(() => {
-    if (status === "created") {
+    if (status === "created" || status === "deleted") {
       dispatch(findAllCustomers());
     }
   }, [status]);
