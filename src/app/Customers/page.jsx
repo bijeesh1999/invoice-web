@@ -12,6 +12,8 @@ import {
   DialogTitle,
   Divider,
 } from "@mui/material";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import { Add, Edit, Delete, Close, Search, Person } from "@mui/icons-material";
 import CustomerList from "./components/list";
 import CustomerForm from "./components/form";
@@ -97,6 +99,7 @@ export default function Members() {
 
   const customers = useSelector((state) => state?.customers.customers);
   const status = useSelector((state) => state?.customers.status);
+  const isLoading = useSelector((state) => state?.customers.isLoading);
 
   const dispatch = useDispatch();
 
@@ -154,6 +157,12 @@ export default function Members() {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Paper elevation={3} sx={{ p: 3, mb: 4 }}>
         <Box
           display="flex"

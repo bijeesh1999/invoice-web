@@ -11,7 +11,7 @@ const initialState = {
   totalCount: "",
   status: "idle",
   error: null,
-  loading: false,
+  isLoading: false,
 };
 
 // action for create Product //
@@ -54,42 +54,45 @@ const productSlice = createSlice({
       // product create
       .addCase(createProductData.pending, (state) => {
         state.status = "loading";
-        state.loading = true;
+        state.isLoading = true;
       })
       .addCase(createProductData.fulfilled, (state, action) => {
         state.status = "created";
 
         state.product = action.payload;
-        state.loading = false;
+        state.isLoading = false;
       })
       .addCase(createProductData.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-        state.loading = false;
+        state.isLoading = false;
       })
       .addCase(findAllProductDetails.pending, (state) => {
         state.status = "loading";
-        state.loading = true;
+        state.isLoading = true;
       })
       .addCase(findAllProductDetails.fulfilled, (state, action) => {
         state.status = "fulfilled";
-        state.loading = false;
+        state.isLoading = false;
         state.products = action.payload.products;
       })
       .addCase(findAllProductDetails.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-        state.loading = false;
+        state.isLoading = false;
       })
       .addCase(deleteProductData.pending, (state) => {
         state.status = "loading";
+        state.isLoading = true;
       })
       .addCase(deleteProductData.fulfilled, (state, action) => {
         state.status = "deleted";
+        state.isLoading = false;
       })
       .addCase(deleteProductData.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+        state.isLoading = false;
       });
   },
 });

@@ -7,7 +7,7 @@ const initialState = {
   totalCount: "",
   status: "idle",
   error: null,
-  loading: false,
+  isLoading: false,
 };
 
 // action for create Customer //
@@ -59,25 +59,36 @@ const invoiceSlice = createSlice({
       })
       .addCase(findAllInvoices.pending, (state) => {
         state.status = "loading";
+        state.isLoading = true
       })
       .addCase(findAllInvoices.fulfilled, (state, action) => {
         state.status = "fulfilled";
         console.log({ payload: action.payload });
         state.invoices = action.payload.invoices;
+        state.isLoading = false;
+
       })
       .addCase(findAllInvoices.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+        state.isLoading = false;
+
       })
       .addCase(deleteInvoiceData.pending, (state) => {
         state.status = "loading";
+        state.isLoading = true;
+
       })
       .addCase(deleteInvoiceData.fulfilled, (state, action) => {
         state.status = "deleted";
+        state.isLoading = false;
+
       })
       .addCase(deleteInvoiceData.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+        state.isLoading = false;
+
       });
   },
 });

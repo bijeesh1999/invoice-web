@@ -1,6 +1,5 @@
 "use client";
-
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import {
   AppBar,
   Box,
@@ -37,6 +36,7 @@ const drawerWidth = 240;
 export default function AdminLayout({ children }) {
   // Local state for sidebar visibility
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -71,6 +71,11 @@ export default function AdminLayout({ children }) {
       sidebarItems.find((item) => item.path === pathname)?.id || "dashboard"
     );
   };
+
+  useEffect(() => {
+    setLoading(true);
+  }, []);
+  // customerLoading, invoiceLoading, productLoading
 
   return (
     <Provider store={store}>
@@ -154,9 +159,14 @@ export default function AdminLayout({ children }) {
                 variant="h6"
                 noWrap
                 component="div"
-                sx={{ display: "flex", width:"100%", justifyContent:"space-between",alignItems:"center" }}
+                sx={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
               >
-                <h4 style={{margin:"0"}}>Admin Panel</h4>
+                <h4 style={{ margin: "0" }}>Admin Panel</h4>
                 <IconButton
                   color="inherit"
                   aria-label="open drawer"

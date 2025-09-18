@@ -10,6 +10,8 @@ import {
   IconButton,
   Divider,
 } from "@mui/material";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import { Add, Close, Edit, Delete, Inventory2 } from "@mui/icons-material";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -71,11 +73,10 @@ export default function Invoice() {
 
   const dispatch = useDispatch();
 
-    const status = useSelector((state) => state?.invoice.status);
+  const status = useSelector((state) => state?.invoice.status);
+  const isLoading = useSelector((state) => state?.invoice.isLoading);
 
-    console.log({status});
-    
-  
+  console.log({ status });
 
   // In the component where you initialize Formik (e.g., your parent page component)
   const formik = useFormik({
@@ -106,13 +107,19 @@ export default function Invoice() {
   }, []);
 
   React.useEffect(() => {
-    if (status === "created"|| status === "deleted") {
+    if (status === "created" || status === "deleted") {
       dispatch(findAllInvoices());
     }
   }, [status]);
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Paper elevation={3} sx={{ p: 3, mb: 4 }}>
         <Box
           display="flex"

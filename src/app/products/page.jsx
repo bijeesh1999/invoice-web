@@ -16,7 +16,8 @@ import {
   InputAdornment,
   Divider,
 } from "@mui/material";
-
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import {
   Add,
   Edit,
@@ -111,6 +112,7 @@ export default function Products() {
 
   const products = useSelector((state) => state.products.products);
   const status = useSelector((state) => state.products.status);
+  const isLoading = useSelector((state) => state?.products.isLoading);
 
   const formik = useFormik({
     initialValues: {
@@ -171,6 +173,12 @@ export default function Products() {
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Stats Cards */}
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Grid container spacing={2} mb={4}>
         <Grid item xs={12} sm={6} md={3}>
           <Card elevation={2}>

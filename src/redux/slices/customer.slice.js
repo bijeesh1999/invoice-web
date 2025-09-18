@@ -11,7 +11,7 @@ const initialState = {
   totalCount: "",
   status: "idle",
   error: null,
-  loading: false,
+  isLoading: false,
 };
 
 // action for create Customer //
@@ -50,38 +50,44 @@ const customerSlice = createSlice({
       // customer create
       .addCase(createCustomerData.pending, (state) => {
         state.status = "loading";
-        state.loading = true;
+        state.isLoading = true;
       })
       .addCase(createCustomerData.fulfilled, (state, action) => {
         state.status = "created";
         state.customer = action.payload;
-        state.loading = false;
+        state.isLoading = false;
       })
       .addCase(createCustomerData.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-        state.loading = false;
+        state.isLoading = false;
       })
       .addCase(findAllCustomers.pending, (state) => {
         state.status = "loading";
+        state.isLoading = true;
       })
       .addCase(findAllCustomers.fulfilled, (state, action) => {
         state.status = "fulfilled";
         state.customers = action.payload.users;
+        state.isLoading = false;
       })
       .addCase(findAllCustomers.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+        state.isLoading = false;
       })
       .addCase(deleteCustomerData.pending, (state) => {
         state.status = "loading";
+        state.isLoading = true;
       })
       .addCase(deleteCustomerData.fulfilled, (state, action) => {
         state.status = "deleted";
+        state.isLoading = false;
       })
       .addCase(deleteCustomerData.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+        state.isLoading = false;
       });
   },
 });
