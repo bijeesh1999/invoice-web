@@ -16,8 +16,8 @@ import {
   InputAdornment,
   Divider,
 } from "@mui/material";
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import {
   Add,
   Edit,
@@ -160,9 +160,8 @@ export default function Products() {
 
   const filteredProducts = products.filter(
     (product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.sku.toLowerCase().includes(searchTerm.toLowerCase())
+      product?.name?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
+      product?.category?.toLowerCase()?.includes(searchTerm?.toLowerCase())
   );
 
   const totalProducts = products.length || 0;
@@ -257,7 +256,7 @@ export default function Products() {
             label="Search Products"
             variant="outlined"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => setSearchTerm(e?.target?.value)}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
